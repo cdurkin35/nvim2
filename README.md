@@ -53,17 +53,19 @@ clang-format/            fallback .clang-format used when a project has none
 
 ### Plugins (~20)
 
-gruvbox · mini.nvim (statusline, icons, files, pairs, surround, ai) · which-key ·
+gruvbox (dark, transparent background) · mini.nvim (statusline, icons, files, pairs, surround, ai) · which-key ·
 fzf-lua (+ fzf) · gitsigns · nvim-treesitter · nvim-lspconfig · mason +
 mason-tool-installer · blink.cmp + friendly-snippets · lazydev · conform ·
 rustaceanvim · crates.nvim · nvim-dap + dap-ui + nio + dap-python
 
 ## Keymaps
 
-Leader is `<Space>`. Press it and wait for which-key to list the options.
+Leader is `<Space>`. Press it and wait for which-key to list the options, or press
+`<leader>?` for a full cheatsheet of every mapping, grouped by category (`q` closes it).
 
 | Keys | Action |
 | --- | --- |
+| `<leader>?` | Keymap cheatsheet |
 | `<leader><space>` / `<leader>ff` | Find files |
 | `<leader>fg` / `<leader>fw` | Live grep / grep word |
 | `<leader>fb` `fr` `fh` `fk` | Buffers, recent, help, keymaps |
