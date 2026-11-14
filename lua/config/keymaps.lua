@@ -1,6 +1,9 @@
 local map = vim.keymap.set
 
 -- General
+map("n", "<leader>?", function()
+    require("config.cheatsheet").open()
+end, { desc = "Keymap cheatsheet" })
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 map({ "n", "i", "x" }, "<C-s>", "<cmd>write<CR><Esc>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>quit<CR>", { desc = "Quit window" })
