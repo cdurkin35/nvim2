@@ -4,12 +4,13 @@ return {
         lazy = false,
         priority = 1000,
         opts = {
-            contrast = "hard",
+            contrast = "", -- standard gruvbox dark (not "hard"/"soft")
+            transparent_mode = true, -- let the terminal draw the background
             italic = { strings = false, comments = true, operators = false, folds = true },
         },
         config = function(_, opts)
+            vim.o.background = "dark" -- must be set before loading for gruvbox dark
             require("gruvbox").setup(opts)
-            vim.o.background = "dark"
             vim.cmd.colorscheme("gruvbox")
         end,
     },

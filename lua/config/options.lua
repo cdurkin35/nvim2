@@ -5,7 +5,6 @@ opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
 opt.cursorline = true
-opt.colorcolumn = "100"
 opt.termguicolors = true
 opt.showmode = false -- statusline shows the mode
 opt.laststatus = 3 -- single global statusline
