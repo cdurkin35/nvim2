@@ -24,7 +24,7 @@ return {
             require("mini.icons").setup()
             MiniIcons.mock_nvim_web_devicons()
 
-            require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font ~= false })
+            require("config.statusline").setup() -- colorful gruvbox layout
 
             -- Editing helpers
             require("mini.pairs").setup()
