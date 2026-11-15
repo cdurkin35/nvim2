@@ -1,0 +1,51 @@
+{
+  "name": "personal-snippets",
+  "description": "Personal snippets for C, C++, Rust, Python and CMake (embedded focus)",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./all.json"
+      },
+      {
+        "language": [
+          "c",
+          "cpp"
+        ],
+        "path": "./c-common.json"
+      },
+      {
+        "language": [
+          "c"
+        ],
+        "path": "./c.json"
+      },
+      {
+        "language": [
+          "cpp"
+        ],
+        "path": "./cpp.json"
+      },
+      {
+        "language": [
+          "rust"
+        ],
+        "path": "./rust.json"
+      },
+      {
+        "language": [
+          "python"
+        ],
+        "path": "./python.json"
+      },
+      {
+        "language": [
+          "cmake"
+        ],
+        "path": "./cmake.json"
+      }
+    ]
+  }
+}

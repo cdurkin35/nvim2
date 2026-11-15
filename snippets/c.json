@@ -1,0 +1,56 @@
+{
+  "Static assert size": {
+    "prefix": "sassert",
+    "description": "Compile-time size check",
+    "body": [
+      "_Static_assert(sizeof(${1:type}) == ${2:4}, \"${1} must be ${2} bytes\");"
+    ]
+  },
+  "Source module skeleton": {
+    "prefix": "module",
+    "description": "C source file layout",
+    "body": [
+      "#include \"${1:${TM_FILENAME_BASE}}.h\"",
+      "",
+      "/* Private defines -------------------------------------------------------- */",
+      "",
+      "/* Private types ---------------------------------------------------------- */",
+      "",
+      "/* Private variables ------------------------------------------------------ */",
+      "",
+      "/* Private functions ------------------------------------------------------ */",
+      "",
+      "/* Public functions ------------------------------------------------------- */",
+      "${0}"
+    ]
+  },
+  "Static function": {
+    "prefix": "sfn",
+    "description": "Static (file-local) function",
+    "body": [
+      "static ${1:void} ${2:name}(${3:void})",
+      "{",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "goto cleanup": {
+    "prefix": "cleanup",
+    "description": "Error handling with goto cleanup",
+    "body": [
+      "int ret = ${1:0};",
+      "",
+      "${2:/* acquire */}",
+      "if (${3:error}) {",
+      "\tret = ${4:-1};",
+      "\tgoto cleanup;",
+      "}",
+      "",
+      "${0}",
+      "",
+      "cleanup:",
+      "\t${5:/* release */}",
+      "\treturn ret;"
+    ]
+  }
+}

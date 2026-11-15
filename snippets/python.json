@@ -1,0 +1,163 @@
+{
+  "Script with argparse": {
+    "prefix": "script",
+    "description": "CLI script skeleton with argparse and main()",
+    "body": [
+      "\"\"\"${1:Description}.\"\"\"",
+      "",
+      "import argparse",
+      "",
+      "",
+      "def parse_args() -> argparse.Namespace:",
+      "\tparser = argparse.ArgumentParser(description=__doc__)",
+      "\tparser.add_argument(\"${2:input}\", help=\"${3:Input file}\")",
+      "\treturn parser.parse_args()",
+      "",
+      "",
+      "def main() -> None:",
+      "\targs = parse_args()",
+      "\t${0}",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "\tmain()"
+    ]
+  },
+  "main function": {
+    "prefix": "mainf",
+    "description": "main() with __main__ guard",
+    "body": [
+      "def main() -> None:",
+      "\t${0}",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "\tmain()"
+    ]
+  },
+  "dataclass": {
+    "prefix": "dclass",
+    "description": "dataclass",
+    "body": [
+      "@dataclass",
+      "class ${1:Name}:",
+      "\t${2:field}: ${3:int}${4: = 0}",
+      "\t${0}"
+    ]
+  },
+  "Enum": {
+    "prefix": "enumc",
+    "description": "Enum class",
+    "body": [
+      "class ${1:Name}(${2|Enum,IntEnum,StrEnum,Flag,IntFlag|}):",
+      "\t${3:FIRST} = ${4:auto()}",
+      "\t${0}"
+    ]
+  },
+  "Module logger": {
+    "prefix": "logger",
+    "description": "Module-level logger",
+    "body": [
+      "import logging",
+      "",
+      "logger = logging.getLogger(__name__)"
+    ]
+  },
+  "Logging setup": {
+    "prefix": "logcfg",
+    "description": "logging.basicConfig",
+    "body": [
+      "logging.basicConfig(",
+      "\tlevel=logging.${1|INFO,DEBUG,WARNING,ERROR|},",
+      "\tformat=\"%(asctime)s %(levelname)s %(name)s: %(message)s\",",
+      ")"
+    ]
+  },
+  "contextmanager": {
+    "prefix": "ctxmgr",
+    "description": "@contextmanager function",
+    "body": [
+      "@contextmanager",
+      "def ${1:name}(${2}):",
+      "\t${3:# setup}",
+      "\ttry:",
+      "\t\tyield ${4}",
+      "\tfinally:",
+      "\t\t${0:# teardown}"
+    ]
+  },
+  "subprocess.run": {
+    "prefix": "subrun",
+    "description": "subprocess.run with checks and captured output",
+    "body": [
+      "result = subprocess.run(",
+      "\t[${1:\"cmd\"}],",
+      "\tcheck=True,",
+      "\tcapture_output=True,",
+      "\ttext=True,",
+      ")"
+    ]
+  },
+  "Read file (pathlib)": {
+    "prefix": "readf",
+    "description": "Read a text file with pathlib",
+    "body": [
+      "text = Path(${1:\"file.txt\"}).read_text(encoding=\"utf-8\")"
+    ]
+  },
+  "Serial port": {
+    "prefix": "serial",
+    "description": "pyserial: open port and read lines",
+    "body": [
+      "with serial.Serial(\"${1:/dev/ttyUSB0}\", ${2:115200}, timeout=${3:1}) as ser:",
+      "\twhile True:",
+      "\t\tline = ser.readline().decode(errors=\"replace\").rstrip()",
+      "\t\tif line:",
+      "\t\t\t${0:print(line)}"
+    ]
+  },
+  "struct unpack": {
+    "prefix": "unpack",
+    "description": "struct.unpack binary data",
+    "body": [
+      "${1:a, b} = struct.unpack(\"${2:<HI}\", ${3:data})"
+    ]
+  },
+  "struct pack": {
+    "prefix": "pack",
+    "description": "struct.pack binary data",
+    "body": [
+      "data = struct.pack(\"${1:<HI}\", ${2:a, b})"
+    ]
+  },
+  "pytest test": {
+    "prefix": "ptest",
+    "description": "pytest test function",
+    "body": [
+      "def test_${1:name}() -> None:",
+      "\t${0:assert True}"
+    ]
+  },
+  "pytest fixture": {
+    "prefix": "pfix",
+    "description": "pytest fixture",
+    "body": [
+      "@pytest.fixture",
+      "def ${1:name}():",
+      "\t${2:resource} = ${3:None}",
+      "\tyield ${2}",
+      "\t${0}"
+    ]
+  },
+  "pytest parametrize": {
+    "prefix": "pparam",
+    "description": "pytest.mark.parametrize",
+    "body": [
+      "@pytest.mark.parametrize(\"${1:value, expected}\", [",
+      "\t(${2}),",
+      "])",
+      "def test_${3:name}(${1}) -> None:",
+      "\t${0:assert True}"
+    ]
+  }
+}

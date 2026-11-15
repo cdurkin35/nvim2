@@ -1,0 +1,60 @@
+{
+  "Embedded CMake project": {
+    "prefix": "cmproj",
+    "description": "CMakeLists.txt for a cross-compiled firmware",
+    "body": [
+      "cmake_minimum_required(VERSION 3.20)",
+      "project(${1:firmware} C ASM)",
+      "",
+      "set(CMAKE_C_STANDARD ${2:11})",
+      "set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clangd",
+      "",
+      "add_executable(\\${PROJECT_NAME}.elf",
+      "\t${3:src/main.c}",
+      ")",
+      "",
+      "target_include_directories(\\${PROJECT_NAME}.elf PRIVATE ${4:inc})",
+      "target_compile_options(\\${PROJECT_NAME}.elf PRIVATE",
+      "\t-mcpu=${5:cortex-m4} -mthumb${6: -mfpu=fpv4-sp-d16 -mfloat-abi=hard}",
+      "\t-Wall -Wextra -ffunction-sections -fdata-sections",
+      ")",
+      "target_link_options(\\${PROJECT_NAME}.elf PRIVATE",
+      "\t-mcpu=${5} -mthumb${6}",
+      "\t-T\\${CMAKE_SOURCE_DIR}/${7:linker.ld}",
+      "\t-Wl,--gc-sections -Wl,-Map=\\${PROJECT_NAME}.map --specs=nano.specs",
+      ")",
+      "${0}"
+    ]
+  },
+  "Cross-compile toolchain file": {
+    "prefix": "cmtoolchain",
+    "description": "CMake toolchain file for a GCC cross compiler",
+    "body": [
+      "set(CMAKE_SYSTEM_NAME Generic)",
+      "set(CMAKE_SYSTEM_PROCESSOR ${1:arm})",
+      "",
+      "set(TOOLCHAIN_PREFIX ${2:arm-none-eabi-})",
+      "set(CMAKE_C_COMPILER \\${TOOLCHAIN_PREFIX}gcc)",
+      "set(CMAKE_CXX_COMPILER \\${TOOLCHAIN_PREFIX}g++)",
+      "set(CMAKE_ASM_COMPILER \\${TOOLCHAIN_PREFIX}gcc)",
+      "set(CMAKE_OBJCOPY \\${TOOLCHAIN_PREFIX}objcopy)",
+      "set(CMAKE_SIZE \\${TOOLCHAIN_PREFIX}size)",
+      "",
+      "set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)",
+      "set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)",
+      "set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)",
+      "set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"
+    ]
+  },
+  "Post-build bin/hex": {
+    "prefix": "cmpostbuild",
+    "description": "Generate .bin/.hex and print size after build",
+    "body": [
+      "add_custom_command(TARGET \\${PROJECT_NAME}.elf POST_BUILD",
+      "\tCOMMAND \\${CMAKE_OBJCOPY} -O binary \\$<TARGET_FILE:\\${PROJECT_NAME}.elf> \\${PROJECT_NAME}.bin",
+      "\tCOMMAND \\${CMAKE_OBJCOPY} -O ihex \\$<TARGET_FILE:\\${PROJECT_NAME}.elf> \\${PROJECT_NAME}.hex",
+      "\tCOMMAND \\${CMAKE_SIZE} \\$<TARGET_FILE:\\${PROJECT_NAME}.elf>",
+      ")"
+    ]
+  }
+}

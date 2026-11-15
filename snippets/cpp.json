@@ -1,0 +1,171 @@
+{
+  "Static assert size": {
+    "prefix": "sassert",
+    "description": "Compile-time size check",
+    "body": [
+      "static_assert(sizeof(${1:type}) == ${2:4}, \"${1} must be ${2} bytes\");"
+    ]
+  },
+  "Namespace": {
+    "prefix": "ns",
+    "description": "Namespace with closing comment",
+    "body": [
+      "namespace ${1:name} {",
+      "",
+      "${0}",
+      "",
+      "} // namespace ${1}"
+    ]
+  },
+  "Anonymous namespace": {
+    "prefix": "anon",
+    "description": "Anonymous namespace",
+    "body": [
+      "namespace {",
+      "",
+      "${0}",
+      "",
+      "} // namespace"
+    ]
+  },
+  "Class (rule of five)": {
+    "prefix": "class5",
+    "description": "Class with rule-of-five special members",
+    "body": [
+      "class ${1:Name} {",
+      "public:",
+      "\t${1}();",
+      "\t~${1}();",
+      "",
+      "\t${1}(const ${1}& other);",
+      "\t${1}& operator=(const ${1}& other);",
+      "\t${1}(${1}&& other) noexcept;",
+      "\t${1}& operator=(${1}&& other) noexcept;",
+      "",
+      "private:",
+      "\t${0}",
+      "};"
+    ]
+  },
+  "Non-copyable": {
+    "prefix": "nocopy",
+    "description": "Delete copy/move operations",
+    "body": [
+      "${1:Name}(const ${1}&) = delete;",
+      "${1}& operator=(const ${1}&) = delete;",
+      "${1}(${1}&&) = delete;",
+      "${1}& operator=(${1}&&) = delete;"
+    ]
+  },
+  "Singleton": {
+    "prefix": "singleton",
+    "description": "Meyers singleton accessor",
+    "body": [
+      "static ${1:Name}& instance()",
+      "{",
+      "\tstatic ${1} inst;",
+      "\treturn inst;",
+      "}"
+    ]
+  },
+  "enum class": {
+    "prefix": "enumc",
+    "description": "Scoped enum with underlying type",
+    "body": [
+      "enum class ${1:Name} : ${2:std::uint8_t} {",
+      "\t${0}",
+      "};"
+    ]
+  },
+  "Template function": {
+    "prefix": "tfn",
+    "description": "Function template",
+    "body": [
+      "template <typename ${1:T}>",
+      "${2:void} ${3:name}(const ${1}& ${4:value})",
+      "{",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "Range-based for": {
+    "prefix": "rfor",
+    "description": "Range-based for loop",
+    "body": [
+      "for (${1:const auto&} ${2:item} : ${3:container}) {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "Lambda": {
+    "prefix": "lam",
+    "description": "Lambda expression",
+    "body": [
+      "[${1:&}](${2}) { ${0} }"
+    ]
+  },
+  "unique_ptr": {
+    "prefix": "uptr",
+    "description": "std::make_unique",
+    "body": [
+      "auto ${1:ptr} = std::make_unique<${2:T}>(${3});"
+    ]
+  },
+  "shared_ptr": {
+    "prefix": "sptr",
+    "description": "std::make_shared",
+    "body": [
+      "auto ${1:ptr} = std::make_shared<${2:T}>(${3});"
+    ]
+  },
+  "constexpr constant": {
+    "prefix": "cexpr",
+    "description": "constexpr constant",
+    "body": [
+      "constexpr ${1:auto} ${2:kName} = ${3:value};"
+    ]
+  },
+  "MMIO register reference": {
+    "prefix": "mmio",
+    "description": "Volatile register reference at a fixed address",
+    "body": [
+      "inline volatile std::uint32_t& ${1:reg} =",
+      "\t*reinterpret_cast<volatile std::uint32_t*>(${2:0x40000000U});"
+    ]
+  },
+  "Interrupt handler (C linkage)": {
+    "prefix": "isrcpp",
+    "description": "ISR with C linkage so the vector table finds it",
+    "body": [
+      "extern \"C\" void ${1:TIM2}_IRQHandler()",
+      "{",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "GoogleTest test": {
+    "prefix": "gtest",
+    "description": "GoogleTest TEST",
+    "body": [
+      "TEST(${1:Suite}, ${2:Name})",
+      "{",
+      "\t${0:EXPECT_EQ(1, 1);}",
+      "}"
+    ]
+  },
+  "GoogleTest fixture": {
+    "prefix": "gtestf",
+    "description": "GoogleTest fixture and TEST_F",
+    "body": [
+      "class ${1:Name}Test : public ::testing::Test {",
+      "protected:",
+      "\tvoid SetUp() override { ${2} }",
+      "};",
+      "",
+      "TEST_F(${1}Test, ${3:Case})",
+      "{",
+      "\t${0}",
+      "}"
+    ]
+  }
+}
