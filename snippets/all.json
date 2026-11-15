@@ -1,0 +1,30 @@
+{
+  "TODO comment": {
+    "prefix": "todo",
+    "description": "TODO comment",
+    "body": [
+      "${LINE_COMMENT} TODO: ${0}"
+    ]
+  },
+  "FIXME comment": {
+    "prefix": "fixme",
+    "description": "FIXME comment",
+    "body": [
+      "${LINE_COMMENT} FIXME: ${0}"
+    ]
+  },
+  "NOTE comment": {
+    "prefix": "note",
+    "description": "NOTE comment",
+    "body": [
+      "${LINE_COMMENT} NOTE: ${0}"
+    ]
+  },
+  "HACK comment": {
+    "prefix": "hack",
+    "description": "HACK comment",
+    "body": [
+      "${LINE_COMMENT} HACK: ${0}"
+    ]
+  }
+}

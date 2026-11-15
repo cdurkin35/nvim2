@@ -1,0 +1,185 @@
+{
+  "no_std cortex-m-rt main": {
+    "prefix": "nostd",
+    "description": "Bare-metal no_std binary (cortex-m-rt)",
+    "body": [
+      "#![no_std]",
+      "#![no_main]",
+      "",
+      "use cortex_m_rt::entry;",
+      "use ${1:panic_halt} as _;",
+      "",
+      "#[entry]",
+      "fn main() -> ! {",
+      "\t${0}",
+      "\tloop {}",
+      "}"
+    ]
+  },
+  "Embassy main": {
+    "prefix": "embassy",
+    "description": "Embassy async no_std binary",
+    "body": [
+      "#![no_std]",
+      "#![no_main]",
+      "",
+      "use embassy_executor::Spawner;",
+      "use {defmt_rtt as _, panic_probe as _};",
+      "",
+      "#[embassy_executor::main]",
+      "async fn main(${1:_spawner}: Spawner) {",
+      "\tlet p = embassy_${2:stm32}::init(Default::default());",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "Embassy task": {
+    "prefix": "etask",
+    "description": "Embassy task",
+    "body": [
+      "#[embassy_executor::task]",
+      "async fn ${1:name}(${2}) {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "Interrupt handler": {
+    "prefix": "isr",
+    "description": "cortex-m-rt interrupt handler",
+    "body": [
+      "#[interrupt]",
+      "fn ${1:TIM2}() {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "HardFault handler": {
+    "prefix": "hardfault",
+    "description": "cortex-m-rt HardFault exception",
+    "body": [
+      "#[exception]",
+      "unsafe fn HardFault(ef: &cortex_m_rt::ExceptionFrame) -> ! {",
+      "\tpanic!(\"HardFault: {:#?}\", ef);",
+      "}"
+    ]
+  },
+  "Panic handler": {
+    "prefix": "panich",
+    "description": "Custom #[panic_handler]",
+    "body": [
+      "#[panic_handler]",
+      "fn panic(${1:_info}: &core::panic::PanicInfo) -> ! {",
+      "\t${0}",
+      "\tloop {}",
+      "}"
+    ]
+  },
+  "Critical section": {
+    "prefix": "cs",
+    "description": "critical_section::with",
+    "body": [
+      "critical_section::with(|${1:cs}| {",
+      "\t${0}",
+      "});"
+    ]
+  },
+  "Shared static (Mutex<RefCell>)": {
+    "prefix": "shared",
+    "description": "Static shared with an interrupt",
+    "body": [
+      "static ${1:NAME}: Mutex<RefCell<Option<${2:T}>>> = Mutex::new(RefCell::new(None));"
+    ]
+  },
+  "defmt log": {
+    "prefix": "dlog",
+    "description": "defmt logging macro",
+    "body": [
+      "defmt::${1|info,debug,warn,error,trace|}!(\"${2}\"${3});"
+    ]
+  },
+  "impl block with new": {
+    "prefix": "implnew",
+    "description": "impl block with a new() constructor",
+    "body": [
+      "impl ${1:Type} {",
+      "\tpub fn new(${2}) -> Self {",
+      "\t\tSelf { ${0} }",
+      "\t}",
+      "}"
+    ]
+  },
+  "impl Display": {
+    "prefix": "impldisplay",
+    "description": "Implement core::fmt::Display",
+    "body": [
+      "impl core::fmt::Display for ${1:Type} {",
+      "\tfn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {",
+      "\t\twrite!(f, \"${2}\"${0})",
+      "\t}",
+      "}"
+    ]
+  },
+  "impl From": {
+    "prefix": "implfrom",
+    "description": "Implement From<T>",
+    "body": [
+      "impl From<${1:Source}> for ${2:Target} {",
+      "\tfn from(${3:value}: ${1}) -> Self {",
+      "\t\t${0}",
+      "\t}",
+      "}"
+    ]
+  },
+  "Error enum": {
+    "prefix": "errenum",
+    "description": "Error enum with Display and Error impls",
+    "body": [
+      "#[derive(Debug)]",
+      "pub enum ${1:Error} {",
+      "\t${2:Variant},",
+      "}",
+      "",
+      "impl core::fmt::Display for ${1} {",
+      "\tfn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {",
+      "\t\tmatch self {",
+      "\t\t\tSelf::${2} => write!(f, \"${3:description}\"),",
+      "\t\t}",
+      "\t}",
+      "}",
+      "",
+      "impl core::error::Error for ${1} {}"
+    ]
+  },
+  "Function returning Result": {
+    "prefix": "fnr",
+    "description": "Function returning Result",
+    "body": [
+      "fn ${1:name}(${2}) -> Result<${3:()}, ${4:Error}> {",
+      "\t${0}",
+      "\tOk(())",
+      "}"
+    ]
+  },
+  "Tokio main": {
+    "prefix": "tokmain",
+    "description": "#[tokio::main] with anyhow",
+    "body": [
+      "#[tokio::main]",
+      "async fn main() -> anyhow::Result<()> {",
+      "\t${0}",
+      "\tOk(())",
+      "}"
+    ]
+  },
+  "Test with Result": {
+    "prefix": "testr",
+    "description": "Test function returning Result",
+    "body": [
+      "#[test]",
+      "fn ${1:name}() -> Result<(), Box<dyn std::error::Error>> {",
+      "\t${0}",
+      "\tOk(())",
+      "}"
+    ]
+  }
+}

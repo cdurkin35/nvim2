@@ -49,6 +49,7 @@ lua/plugins/             one file per area (ui, editor, treesitter, lsp, complet
                          format, rust, dap)
 after/lsp/               per-server overrides merged over nvim-lspconfig's defaults
 clang-format/            fallback .clang-format used when a project has none
+snippets/                personal VSCode-format snippets (see Snippets below)
 ```
 
 ### Plugins (~20)
@@ -125,6 +126,150 @@ target = "thumbv7em-none-eabihf"
 basedpyright handles types and navigation, and ruff handles linting, formatting and import
 sorting. Activate the project's virtualenv before starting `nvim` (or set `venvPath`/`venv`
 under `[tool.basedpyright]` in `pyproject.toml`) so imports resolve.
+
+## Snippets
+
+[friendly-snippets](https://github.com/rafamadriz/friendly-snippets) provides the common
+language snippets (`for`, `if`, `main`, `struct`, `fn`, `def`, ...). The `snippets/`
+directory adds personal ones focused on embedded and project boilerplate. Type the prefix
+and pick it from the completion menu, then `<Tab>`/`<S-Tab>` jumps between fields.
+
+Snippets are VSCode-format JSON. Edit them in `snippets/*.json`, map files to filetypes in
+`snippets/package.json`, and restart Neovim to reload them.
+
+<details><summary><b>All filetypes</b> (4)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `todo` | TODO comment |
+| `fixme` | FIXME comment |
+| `note` | NOTE comment |
+| `hack` | HACK comment |
+
+</details>
+
+<details><summary><b>C and C++</b> (26)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `hdr` | Header with include guard and extern "C" wrapper |
+| `externc` | extern "C" guard block |
+| `fhdr` | Doxygen file header |
+| `fdoc` | Doxygen function comment |
+| `banner` | Section separator comment |
+| `reg32` | Memory-mapped 32-bit register macro |
+| `bitm` | BIT(n) macro |
+| `bitset` | Set a bit |
+| `bitclr` | Clear a bit |
+| `bittog` | Toggle a bit |
+| `bitchk` | Test a bit |
+| `bitfld` | Read-modify-write a bit field |
+| `waitflag` | Busy-wait on a status flag with timeout |
+| `isr` | Interrupt service routine |
+| `critical` | Save PRIMASK, disable IRQs, restore |
+| `packed` | Packed typedef struct |
+| `section` | Place symbol in a linker section |
+| `weak` | Weak symbol attribute |
+| `aligned` | Alignment attribute |
+| `unused` | Silence unused parameter warning |
+| `arrsize` | ARRAY_SIZE macro |
+| `cfgdef` | Overridable configuration default |
+| `dbgmacro` | DBG() printf macro compiled out without DEBUG |
+| `enumt` | typedef enum with trailing COUNT |
+| `fnptr` | Function pointer typedef |
+| `superloop` | Embedded main with init and super loop |
+
+</details>
+
+<details><summary><b>C only</b> (4)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `sassert` | Compile-time size check |
+| `module` | C source file layout |
+| `sfn` | Static (file-local) function |
+| `cleanup` | Error handling with goto cleanup |
+
+</details>
+
+<details><summary><b>C++ only</b> (17)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `sassert` | Compile-time size check |
+| `ns` | Namespace with closing comment |
+| `anon` | Anonymous namespace |
+| `class5` | Class with rule-of-five special members |
+| `nocopy` | Delete copy/move operations |
+| `singleton` | Meyers singleton accessor |
+| `enumc` | Scoped enum with underlying type |
+| `tfn` | Function template |
+| `rfor` | Range-based for loop |
+| `lam` | Lambda expression |
+| `uptr` | std::make_unique |
+| `sptr` | std::make_shared |
+| `cexpr` | constexpr constant |
+| `mmio` | Volatile register reference at a fixed address |
+| `isrcpp` | ISR with C linkage so the vector table finds it |
+| `gtest` | GoogleTest TEST |
+| `gtestf` | GoogleTest fixture and TEST_F |
+
+</details>
+
+<details><summary><b>Rust</b> (16)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `nostd` | Bare-metal no_std binary (cortex-m-rt) |
+| `embassy` | Embassy async no_std binary |
+| `etask` | Embassy task |
+| `isr` | cortex-m-rt interrupt handler |
+| `hardfault` | cortex-m-rt HardFault exception |
+| `panich` | Custom #[panic_handler] |
+| `cs` | critical_section::with |
+| `shared` | Static shared with an interrupt |
+| `dlog` | defmt logging macro |
+| `implnew` | impl block with a new() constructor |
+| `impldisplay` | Implement core::fmt::Display |
+| `implfrom` | Implement From<T> |
+| `errenum` | Error enum with Display and Error impls |
+| `fnr` | Function returning Result |
+| `tokmain` | #[tokio::main] with anyhow |
+| `testr` | Test function returning Result |
+
+</details>
+
+<details><summary><b>Python</b> (15)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `script` | CLI script skeleton with argparse and main() |
+| `mainf` | main() with __main__ guard |
+| `dclass` | dataclass |
+| `enumc` | Enum class |
+| `logger` | Module-level logger |
+| `logcfg` | logging.basicConfig |
+| `ctxmgr` | @contextmanager function |
+| `subrun` | subprocess.run with checks and captured output |
+| `readf` | Read a text file with pathlib |
+| `serial` | pyserial: open port and read lines |
+| `unpack` | struct.unpack binary data |
+| `pack` | struct.pack binary data |
+| `ptest` | pytest test function |
+| `pfix` | pytest fixture |
+| `pparam` | pytest.mark.parametrize |
+
+</details>
+
+<details><summary><b>CMake</b> (3)</summary>
+
+| Prefix | Description |
+| --- | --- |
+| `cmproj` | CMakeLists.txt for a cross-compiled firmware |
+| `cmtoolchain` | CMake toolchain file for a GCC cross compiler |
+| `cmpostbuild` | Generate .bin/.hex and print size after build |
+
+</details>
 
 ## Debugging
 
